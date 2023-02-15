@@ -79,6 +79,9 @@ class Model:
     def get_board(self):
         return self.game_board.board
 
+    def get_score(self):
+        return self.game_board.score
+
 
 class Block:
     row = 0
@@ -172,8 +175,10 @@ class GameBoard:
     rows = 20
     cols = 10
     board = np.zeros((rows, cols))
+    score = 0
 
     def empty_rows(self, rows):
         if not len(rows) == 0:
+            self.score += len(rows)
             self.board = np.delete(self.board, rows, axis=0)
             self.board = np.concatenate((np.zeros((len(rows), self.cols)), self.board), axis=0)

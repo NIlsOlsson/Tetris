@@ -26,7 +26,7 @@ class Graphics:
                       "orange block": pygame.image.load('images/orange_tetris_block.png'),
                       "pink block": pygame.image.load('images/pink_tetris_block.png')}
 
-    def repaint(self, board):
+    def repaint(self, board, score):
         if board.shape != (self.rows, self.cols):
             raise ValueError("Board shape does not match graphics board shape")
         self.update_scale(self.screen.get_height(), self.screen.get_width())
@@ -35,6 +35,7 @@ class Graphics:
         self.paint_background(side_margin, top_margin)
         self.paint_filled_cells(board, side_margin + self.cell_size * self.border_width,
                                 top_margin + self.cell_size * self.border_width)
+        self.paint_score(score, top_margin)
 
     def update_scale(self, height, width):
         if self.window_height == height and self.window_width == width:
@@ -112,3 +113,27 @@ class Graphics:
         elif color == 7:
             self.screen.blit(self.image["pink block"], (x, y))
 
+    def paint_score(self, score, top_margin):
+        x = self.window_width/2-2*self.cell_size
+        y = top_margin + self.cell_size*self.border_width/2
+        width = 4*self.cell_size
+        height = 3/2*self.cell_size
+        self.paint_score_border(x, y, width, height, self.cell_size/4)
+        font = pygame.font.SysFont("comicsans", self.cell_size)
+        text = font.render(str(score), True, (0, 0, 0))
+        text_width, text_height = font.size(str(score))
+        text_x = x + (width - text_width) / 2
+        text_y = y + (height - text_height) / 2
+        self.screen.blit(text, (text_x, text_y))
+
+    def paint_score_border(self, x, y, width, height, border_width):
+        for i in range(0, 11):
+            w = border_width / 4 + border_width * i / 10
+            color_value = 80 + 12 * (11 - (i / 2 - 5 / 2) ** 2)
+            color = (color_value, color_value, color_value)
+            pygame.draw.rect(self.screen, color,
+                             (x + w, y + w, width - 2 * w,
+                              height - 2 * w))
+        pygame.draw.rect(self.screen, (235, 235, 235),
+                         (x + border_width, y + border_width, width-2*border_width,
+                          height-2*border_width))

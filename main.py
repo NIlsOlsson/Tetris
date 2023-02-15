@@ -35,7 +35,7 @@ while running:
     else:
         rateCounter += 1
 
-    graphics.repaint(model.get_board())
+    graphics.repaint(model.get_board(), model.get_score())
     pygame.display.flip()
 
 pygame.quit()
