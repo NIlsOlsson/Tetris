@@ -158,8 +158,14 @@ class LeftZShape(Shape):
     def __init__(self):
         self.normalized_cells = [(-2, 1), (-1, 1), (-1, 0), (0, 0)]
 
+class MountainShape(Shape):
+    color = 7
 
-shapes = [RightLShape, LeftLShape, LineShape, SquareShape, RightZShape, LeftZShape]
+    def __init__(self):
+        self.normalized_cells = [(0, 0), (0, 1), (-1, 1), (0, 2)]
+
+
+shapes = [RightLShape, LeftLShape, LineShape, SquareShape, RightZShape, LeftZShape, MountainShape]
 
 
 class GameBoard:

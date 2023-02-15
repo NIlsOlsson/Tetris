@@ -23,13 +23,14 @@ class Graphics:
                       "purple block": pygame.image.load('images/purple_tetris_block.png'),
                       "red block": pygame.image.load('images/red_tetris_block.png'),
                       "yellow block": pygame.image.load('images/yellow_tetris_block.png'),
-                      "orange block": pygame.image.load('images/orange_tetris_block.png')}
+                      "orange block": pygame.image.load('images/orange_tetris_block.png'),
+                      "pink block": pygame.image.load('images/pink_tetris_block.png')}
 
     def repaint(self, board):
         if board.shape != (self.rows, self.cols):
             raise ValueError("Board shape does not match graphics board shape")
         self.update_scale(self.screen.get_height(), self.screen.get_width())
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((250, 250, 250))
         side_margin, top_margin = self.get_margins()
         self.paint_background(side_margin, top_margin)
         self.paint_filled_cells(board, side_margin + self.cell_size * self.border_width,
@@ -108,4 +109,6 @@ class Graphics:
             self.screen.blit(self.image["yellow block"], (x, y))
         elif color == 6:
             self.screen.blit(self.image["orange block"], (x, y))
+        elif color == 7:
+            self.screen.blit(self.image["pink block"], (x, y))
 
