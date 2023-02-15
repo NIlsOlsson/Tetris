@@ -1,16 +1,41 @@
-# This is a sample Python script.
+import pygame
 
-# Press Skift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from graphics import Graphics
+from model import GameBoard, Model
 
+pygame.init()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+screen = pygame.display.set_mode((500, 600), pygame.RESIZABLE)
 
+clock = pygame.time.Clock()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+gameRate = 10
+rateCounter = 0
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+d, l, r = 0, 0, 0
+
+graphics = Graphics(20, 10, screen)
+model = Model()
+
+running = True
+while running:
+    clock.tick(60)
+    pygame.display.set_caption("Tetris")
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            model.key_pressed(event.key)
+        elif event.type == pygame.VIDEORESIZE:
+            screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+
+    if rateCounter == gameRate:
+        rateCounter = 0
+        model.tick()
+    else:
+        rateCounter += 1
+
+    graphics.repaint(model.get_board())
+    pygame.display.flip()
+
+pygame.quit()
