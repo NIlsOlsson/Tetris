@@ -10,7 +10,7 @@ class Graphics:
     cell_size = 0
 
     def __init__(self, rows, cols, screen):
-        self.image = None
+        self.images = None
         self.rows = rows
         self.cols = cols
         self.screen = screen
@@ -18,13 +18,13 @@ class Graphics:
         self.load_images()
 
     def load_images(self):
-        self.image = {"blue block": pygame.image.load('images/blue_tetris_block.png'),
-                      "green block": pygame.image.load('images/green_tetris_block.png'),
-                      "purple block": pygame.image.load('images/purple_tetris_block.png'),
-                      "red block": pygame.image.load('images/red_tetris_block.png'),
-                      "yellow block": pygame.image.load('images/yellow_tetris_block.png'),
-                      "orange block": pygame.image.load('images/orange_tetris_block.png'),
-                      "pink block": pygame.image.load('images/pink_tetris_block.png')}
+        self.images = {"blue block": pygame.image.load('images/blue_tetris_block.png'),
+                       "green block": pygame.image.load('images/green_tetris_block.png'),
+                       "purple block": pygame.image.load('images/purple_tetris_block.png'),
+                       "red block": pygame.image.load('images/red_tetris_block.png'),
+                       "yellow block": pygame.image.load('images/yellow_tetris_block.png'),
+                       "orange block": pygame.image.load('images/orange_tetris_block.png'),
+                       "pink block": pygame.image.load('images/pink_tetris_block.png')}
 
     def repaint(self, board, score):
         if board.shape != (self.rows, self.cols):
@@ -47,8 +47,8 @@ class Graphics:
 
     def scale_images(self):
         self.load_images()
-        for key in self.image:
-            self.image[key] = pygame.transform.smoothscale(self.image[key], (self.cell_size, self.cell_size))
+        for key in self.images:
+            self.images[key] = pygame.transform.smoothscale(self.images[key], (self.cell_size, self.cell_size))
 
     def get_cell_size(self):
         height_width_ratio = (self.rows + self.border_width * 2) / (self.cols + self.border_width * 2)
@@ -66,7 +66,8 @@ class Graphics:
             color_value = 80 + 12 * (11 - (i / 2 - 5 / 2) ** 2)
             color = (color_value, color_value, color_value)
             pygame.draw.rect(self.screen, color,
-                             (side_margin + w, top_margin + w, self.cell_size * (self.cols + self.border_width * 2) - 2 * w,
+                             (side_margin + w, top_margin + w,
+                              self.cell_size * (self.cols + self.border_width * 2) - 2 * w,
                               self.cell_size * (self.rows + self.border_width * 2) - 2 * w))
         pygame.draw.rect(self.screen, (240, 240, 240),
                          (side_margin + border_pixels, top_margin + border_pixels, self.cell_size * self.cols,
@@ -81,7 +82,8 @@ class Graphics:
         x = side_margin + border_pixels - line_width / 2
         for i in range(1, self.cols):
             pygame.draw.rect(self.screen, line_color,
-                             (x + i * self.cell_size, top_margin + border_pixels, line_width, self.cell_size * self.rows))
+                             (x + i * self.cell_size, top_margin + border_pixels, line_width,
+                              self.cell_size * self.rows))
         y = top_margin + border_pixels - line_width / 2
         for i in range(1, self.rows):
             pygame.draw.rect(self.screen, line_color, (
@@ -99,26 +101,26 @@ class Graphics:
 
     def fill_cell(self, x, y, color):
         if color == 1:
-            self.screen.blit(self.image["blue block"], (x, y))
+            self.screen.blit(self.images["blue block"], (x, y))
         elif color == 2:
-            self.screen.blit(self.image["green block"], (x, y))
+            self.screen.blit(self.images["green block"], (x, y))
         elif color == 3:
-            self.screen.blit(self.image["purple block"], (x, y))
+            self.screen.blit(self.images["purple block"], (x, y))
         elif color == 4:
-            self.screen.blit(self.image["red block"], (x, y))
+            self.screen.blit(self.images["red block"], (x, y))
         elif color == 5:
-            self.screen.blit(self.image["yellow block"], (x, y))
+            self.screen.blit(self.images["yellow block"], (x, y))
         elif color == 6:
-            self.screen.blit(self.image["orange block"], (x, y))
+            self.screen.blit(self.images["orange block"], (x, y))
         elif color == 7:
-            self.screen.blit(self.image["pink block"], (x, y))
+            self.screen.blit(self.images["pink block"], (x, y))
 
     def paint_score(self, score, top_margin):
-        x = self.window_width/2-2*self.cell_size
-        y = top_margin + self.cell_size*self.border_width/2
-        width = 4*self.cell_size
-        height = 3/2*self.cell_size
-        self.paint_score_border(x, y, width, height, self.cell_size/4)
+        x = self.window_width / 2 - 2 * self.cell_size
+        y = top_margin + self.cell_size * self.border_width / 2
+        width = 4 * self.cell_size
+        height = 3 / 2 * self.cell_size
+        self.paint_score_border(x, y, width, height, self.cell_size / 4)
         font = pygame.font.SysFont("comicsans", self.cell_size)
         text = font.render(str(score), True, (0, 0, 0))
         text_width, text_height = font.size(str(score))
@@ -135,5 +137,5 @@ class Graphics:
                              (x + w, y + w, width - 2 * w,
                               height - 2 * w))
         pygame.draw.rect(self.screen, (235, 235, 235),
-                         (x + border_width, y + border_width, width-2*border_width,
-                          height-2*border_width))
+                         (x + border_width, y + border_width, width - 2 * border_width,
+                          height - 2 * border_width))
